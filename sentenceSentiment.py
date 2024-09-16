@@ -1,10 +1,14 @@
+import warnings
+import torch
 from transformers import pipeline
 
-sentiment_pipeline = pipeline("sentiment-analysis")
+warnings.filterwarnings("ignore", category=FutureWarning)
+gpu = 0 if torch.cuda.is_available() else -1
+sentiment_pipeline = pipeline('sentiment-analysis', model="distilbert-base-uncased-finetuned-sst-2-english", device=gpu)
 data = []
 while True:
     try:
-        user_input = input("Enter a sentence: ")
+        user_input = input('Enter a sentence: ')
     except EOFError:
         break
     data.append(user_input)
